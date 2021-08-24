@@ -1,0 +1,36 @@
+@import url('./home-page.css');
+@import url('./header.css');
+@import url('./book-app.css');
+@import url('./book-details.css');
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+.user-msg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 20px;
+    transition: opacity 0.5s;
+}
+
+/* .user-msg .btn-close-msg {
+    position: absolute;
+    top: 0;
+    right: 0;
+} */
+
+.user-msg.success {
+    background-color: rgb(219, 237, 255);
+}
+
+.user-msg.error {
+    background-color: rgb(255, 203, 203);
+}

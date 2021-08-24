@@ -1,0 +1,58 @@
+.book-container {
+    max-width: 600px;
+}
+
+.book-details, .book-review {
+    padding: 10px;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.071);
+}
+
+.cheap {
+    color: rgb(0, 158, 0);
+}
+
+.expensive {
+    color: rgb(158, 84, 0);
+}
+
+.book-tag {
+    display: inline-block;
+    padding: 1em;
+    background-color: rgba(255, 255, 0, 0.486);
+    margin-right: 10px;
+    text-transform: capitalize;
+}
+
+.book-details button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: gray;
+    font-family: inherit;
+}
+
+.book-details button:hover {
+    color: indigo;
+}
+
+/* Reviews: */
+
+.book-review {
+    position: relative;
+}
+
+.btn-delete-review {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.rating-stars {
+    color: rgb(255 142 1);
+    cursor: default;
+}
+
+.add-review .rating-stars {
+    font-size: 2em;
+    cursor: pointer;
+}
