@@ -1,15 +1,17 @@
 import { BookReviews } from '../cmps/book-reviews/book-reviews.jsx';
 import ReviewAdd from '../cmps/book-reviews/review-add.jsx';
 import { BookTags } from '../cmps/BookTags.jsx';
+import { LoadingSpinner } from '../cmps/loading-spinner.jsx';
 import LongTxt from '../cmps/LongTxt.jsx';
 import { bookService } from '../services/book.service.js';
+import { eventBusService } from '../services/event-bus.service.js';
 import { utilService } from '../services/util.service.js';
 const { Link } = ReactRouterDOM;
 
 export class BookDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { book: null, isLongTxtShown: false };
+    this.state = { book: null, isLongTxtShown: false, isLoading: false };
   }
 
   componentDidMount() {
@@ -32,18 +34,41 @@ export class BookDetails extends React.Component {
   onAddReview = (ev, review) => {
     ev.preventDefault();
     const { id } = this.state.book;
-    bookService.addReview(id, review);
-    this.loadBook();
+    this.setState({ isLoading: true }, () => {
+      bookService.addReview(id, review).then(() => {
+        eventBusService.emit('user-msg', {
+          text: 'review added',
+          type: 'success',
+        });
+        this.setState({ isLoading: false });
+        this.loadBook();
+      });
+    });
   };
 
   onDeleteReview = (reviewId) => {
-    bookService.deleteReview(reviewId);
-    this.loadBook();
+    this.setState({ isLoading: true }, () => {
+      bookService.deleteReview(reviewId).then(() => {
+        eventBusService.emit('user-msg', {
+          text: 'review deleted',
+          type: 'success',
+        });
+        this.setState({ isLoading: false });
+        this.loadBook();
+      });
+    });
   };
 
   render() {
     const { book } = this.state;
-    if (!book) return <div>Loading..</div>;
+    if (!book)
+      return (
+        <div className="book-container container gap-4 d-grid">
+          <section className="book-details bg-light">
+            <LoadingSpinner />
+          </section>
+        </div>
+      );
     const {
       id,
       title,
@@ -66,7 +91,7 @@ export class BookDetails extends React.Component {
     ];
 
     const priceClass = listPrice.amount > 150 ? 'expensive' : listPrice.amount < 20 ? 'cheap' : '';
-    const { isLongTxtShown } = this.state;
+    const { isLongTxtShown, isLoading } = this.state;
     return (
       <div className="book-container container gap-4 d-grid">
         <div className="book-nav d-flex justify-content-between">
@@ -98,6 +123,7 @@ export class BookDetails extends React.Component {
           <img src={book.thumbnail} alt="" />
         </section>
         <ReviewAdd onAddReview={this.onAddReview} />
+        {isLoading && <LoadingSpinner />}
         <BookReviews reviews={book.reviews} onDeleteReview={this.onDeleteReview} />
       </div>
     );

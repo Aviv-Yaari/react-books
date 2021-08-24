@@ -19,6 +19,7 @@ h1, h2 {
     left: 0;
     padding: 20px;
     transition: opacity 0.5s;
+    pointer-events: none;
 }
 
 /* .user-msg .btn-close-msg {

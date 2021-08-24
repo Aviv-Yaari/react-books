@@ -22,6 +22,8 @@ export class UserMsg extends React.Component {
     this.removeEventBus();
   }
 
+  getBookAddMsg = () => {};
+
   getMsgInfo = () => {
     const { msg } = this.state;
     if (msg.text === 'book added') {
@@ -31,9 +33,12 @@ export class UserMsg extends React.Component {
           <span onClick={this.onCloseMsg}>
             <Link to={`book/${msg.book.addedId}`}>Click here to see more.</Link>
           </span>
-          <button className="btn btn-close" onClick={this.onCloseMsg}></button>
         </React.Fragment>
       );
+    } else if (msg.text === 'review added') {
+      return <React.Fragment>Review successfuly added.</React.Fragment>;
+    } else if (msg.text === 'review deleted') {
+      return <React.Fragment>Review successfuly deleted.</React.Fragment>;
     }
   };
 
@@ -41,7 +46,10 @@ export class UserMsg extends React.Component {
     const { msg } = this.state;
     if (!msg) return <section className="user-msg opacity-0"></section>;
     return (
-      <section className={'user-msg opacity-100 ' + msg.type}>{msg && this.getMsgInfo()}</section>
+      <section className={'user-msg opacity-100 ' + msg.type}>
+        {msg && this.getMsgInfo()}
+        <button className="btn btn-close mx-4" onClick={this.onCloseMsg}></button>
+      </section>
     );
   }
 }

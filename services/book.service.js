@@ -408,14 +408,14 @@ function query(filterBy) {
 
 function findById(id) {
   const book = gBooks.find((book) => book.id === id);
-  return Promise.resolve(book);
+  return new Promise((resolve) => setTimeout(resolve, 2000, book));
 }
 
 function addBook(book) {
   book.id = utilService.makeId();
   gBooks.unshift(book);
   storageService.saveToStorage('books', gBooks);
-  return Promise.resolve(book.id);
+  return new Promise((resolve) => setTimeout(resolve, 2000, book.id));
 }
 
 function getNegBookId(bookId, diff) {
@@ -431,6 +431,7 @@ function addReview(bookId, review) {
   review.id = utilService.makeId();
   book.reviews.unshift(review);
   storageService.saveToStorage('books', gBooks);
+  return new Promise((resolve) => setTimeout(resolve, 2000, review));
 }
 
 function deleteReview(reviewId) {
@@ -438,6 +439,7 @@ function deleteReview(reviewId) {
     book.reviews = book.reviews.filter((review) => review.id !== reviewId);
   });
   storageService.saveToStorage('books', gBooks);
+  return new Promise((resolve) => setTimeout(resolve, 1000));
 }
 
 // API Search:
